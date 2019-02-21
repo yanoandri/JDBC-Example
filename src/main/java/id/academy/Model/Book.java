@@ -2,10 +2,14 @@ package id.academy.Model;
 
 import id.academy.view.BookService;
 
+import java.util.Date;
+
 public class Book {
     private  int id;
     private String name;
     private String author;
+    private Date createdDate;
+    private Date updatedDate;
 
     public Book(int id, String name, String author){
         this.id = id;
@@ -40,5 +44,21 @@ public class Book {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

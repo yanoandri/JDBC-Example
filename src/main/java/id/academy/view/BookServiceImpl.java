@@ -1,6 +1,7 @@
 package id.academy.view;
 
 import id.academy.Model.Book;
+import id.academy.Model.Books;
 import id.academy.config.JDBCConnector;
 
 import java.sql.*;
@@ -73,8 +74,9 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    public ArrayList<Book> getAll() {
+    public void getAll() {
         ArrayList<Book> bookList = new ArrayList<Book>();
+        Books books = new Books();
         String query = "select * from book";
 
         try {
@@ -83,31 +85,33 @@ public class BookServiceImpl implements BookService {
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()){
                 Book book = new Book(rs.getInt("id"),rs.getString("nama"), rs.getString("author"));
+                book.setCreatedDate(rs.getDate("created_at"));
+                book.setUpdatedDate(rs.getDate("updated_at"));
                 bookList.add(book);
             }
-
+            books.setList(bookList);
+            view.onSelectAll(books);
         } catch (SQLException e) {
             view.onError(e.getMessage());
         }
-        return bookList;
     }
 
-    public Book getOne(int id) {
-        Book book = null;
-        String query = "select * from book where id = ?";
+    public void getBookByTitle(String title) {
+        String query = "select * from book where nama like '%"+ title +"%'";
 
         try {
 
             PreparedStatement statement = this.connection.prepareStatement(query);
-            statement.setInt(1,id);
             ResultSet rs = statement.executeQuery(query);
+            Book book = null;
             while (rs.next()){
-                book = new Book(rs.getInt("id"),rs.getString("nama"), rs.getString("author"));
+                 book = new Book(rs.getInt("id"),rs.getString("nama"), rs.getString("author"));
+                 book.setCreatedDate(rs.getDate("created_at"));
+                 book.setUpdatedDate(rs.getDate("updated_at"));
             }
-
+            view.onSelectOne(book);
         } catch (SQLException e) {
             view.onError(e.getMessage());
         }
-        return book;
     }
 }

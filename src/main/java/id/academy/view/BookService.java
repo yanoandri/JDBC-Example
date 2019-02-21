@@ -2,8 +2,6 @@ package id.academy.view;
 
 import id.academy.Model.Book;
 
-import java.util.ArrayList;
-
 public interface BookService {
 
     void add(Book book);
@@ -12,7 +10,7 @@ public interface BookService {
 
     void delete(Book book);
 
-    ArrayList<Book> getAll();
+    void getAll();
 
-    Book getOne(int id);
+    void getBookByTitle(String title);
 }
